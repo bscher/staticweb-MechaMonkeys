@@ -1,24 +1,32 @@
 class EnterScreen {
 
-    static animation = {
+    static image_comeBackSoon = {
         image: (() => {
-            const landingMechSheet = new Image();
-            landingMechSheet.src = "img/mech_landing.png";
-            return landingMechSheet;
+            const _img = new Image();
+            _img.src = "img/come_back.png";
+            return _img;
         })(),
-        frameWidth: 500,
-        frameHeight: 500,
-        frameCount: 18 // EXCLUSIVE
+        frameWidth: 750,
+        frameHeight: 750
     };
+
+    constructor(canvas, ctx) {
+        this.canvas = canvas;
+        this.ctx = ctx;
+    }
+
+    draw() {
+        this.ctx.drawImage(EnterScreen.image_comeBackSoon.image, 0, 0);
+    }
 }
 
 class LandingMech {
 
     static animation = {
         image: (() => {
-            const landingMechSheet = new Image();
-            landingMechSheet.src = "img/mech_landing.png";
-            return landingMechSheet;
+            const _img = new Image();
+            _img.src = "img/mech_landing.png";
+            return _img;
         })(),
         frameWidth: 500,
         frameHeight: 500,
@@ -47,6 +55,44 @@ class LandingMech {
     }
 }
 
+class Scene {
+    static STATES = Object.freeze({
+        ENTER_INACTIVE: 0,
+        ENTER: 1,
+        ENTERING: 2,
+        MINT: 3,
+        POST_MINT: 4
+    });
+
+    constructor(canvas, ctx) {
+        this.canvas = canvas;
+        this.ctx = ctx;
+
+        this.state = Scene.STATES.ENTER_INACTIVE;
+
+        this.enterScreen = new EnterScreen(canvas, ctx);
+
+        // EXAMPLE
+        //this.mech = new LandingMech(canvas, ctx, "TODO", "TODO");
+    }
+
+    draw() {
+        this.ctx.fillText("Hello, world!", 100, 100);
+
+        if (this.state === Scene.STATES.ENTER_INACTIVE) {
+            this.enterScreen.draw();
+        } else if (this.state === Scene.STATES.ENTER) {
+            // TODO
+        } else if (this.state === Scene.STATES.ENTERING) {
+            // TODO
+        } else if (this.state === Scene.STATES.MINT) {
+            // TODO
+        } else if (this.state === Scene.STATES.POST_MINT) {
+            // TODO
+        }
+    }
+}
+
 $(function () {
     // Setup
     const canvas = document.getElementById("screen_canvas");
@@ -61,7 +107,7 @@ $(function () {
     window.addEventListener('resize', onWindowResized);
 
     // Scene
-    let mech = new LandingMech(canvas, ctx, "TODO", "TODO");
+    let scene = new Scene(canvas, ctx);
 
     // Frame update loop
     function updateFrame() {
@@ -69,8 +115,7 @@ $(function () {
         // Clear frame
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillText("Hello, world!", 100, 100);
-        mech.draw();
+        scene.draw();
 
         requestAnimationFrame(updateFrame);
     }
