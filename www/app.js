@@ -1,3 +1,17 @@
+class EnterScreen {
+
+    static animation = {
+        image: (() => {
+            const landingMechSheet = new Image();
+            landingMechSheet.src = "img/mech_landing.png";
+            return landingMechSheet;
+        })(),
+        frameWidth: 500,
+        frameHeight: 500,
+        frameCount: 18 // EXCLUSIVE
+    };
+}
+
 class LandingMech {
 
     static animation = {
@@ -35,7 +49,7 @@ class LandingMech {
 
 $(function () {
     // Setup
-    const canvas = document.getElementById("maincanvas");
+    const canvas = document.getElementById("screen_canvas");
     const ctx = canvas.getContext("2d");
 
     // Handle window resizing

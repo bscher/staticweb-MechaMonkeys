@@ -6,7 +6,7 @@
         "test": "test"
     },
     "scripts": {
-        "web": "ws -p 8000 -d ./www/"
+        "www": "ws -p 8000 -d ./www/"
     },
     "author": "github.com/bscher",
     "license": "ISC",
