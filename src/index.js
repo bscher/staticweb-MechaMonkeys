@@ -45,8 +45,8 @@ $(function () {
 
     // Handle window resizing
     function onWindowResized() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
+        canvas.width = 750; //canvas.offsetWidth;
+        canvas.height = 750; //canvas.offsetHeight;
     }
     onWindowResized();
     window.addEventListener('resize', onWindowResized);
