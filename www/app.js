@@ -1,4 +1,49 @@
+/// Returns a deterministic frame number with just the current time
+function getFrameFromTime(timeStamp, totalFrames, millisPerFrame) {
+    const animationPeriod = totalFrames * millisPerFrame;
+    return Math.floor((timeStamp % animationPeriod) / millisPerFrame);
+}
+
+class Clouds {
+    static animation = {
+        image: (() => {
+            const _img = new Image();
+            _img.src = "img/animated_clouds_sheet.png";
+            return _img;
+        })(),
+        frameWidth: 750,
+        frameHeight: 750,
+        frameCount: 16 // EXCLUSIVE
+    };
+
+    constructor(canvas, ctx) {
+        this.canvas = canvas;
+        this.ctx = ctx;
+    }
+
+    draw(timeStamp) {
+        let frame = getFrameFromTime(timeStamp, Clouds.animation.frameCount, 200);
+        this.ctx.drawImage(
+            Clouds.animation.image,
+            frame * Clouds.animation.frameWidth, 0,
+            Clouds.animation.frameWidth, Clouds.animation.frameHeight,
+            0, 0,
+            Clouds.animation.frameWidth, Clouds.animation.frameHeight
+        );
+    }
+}
+
 class EnterScreen {
+
+    static image_background = {
+        image: (() => {
+            const _img = new Image();
+            _img.src = "img/welcome_background.png";
+            return _img;
+        })(),
+        frameWidth: 750,
+        frameHeight: 750
+    };
 
     static image_comeBackSoon = {
         image: (() => {
@@ -13,10 +58,20 @@ class EnterScreen {
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
+
+        this.clouds = new Clouds(canvas, ctx);
     }
 
-    draw() {
+    draw(timeStamp) {
+
+        // Background
+        this.ctx.drawImage(EnterScreen.image_background.image, 0, 0);
+
+        // "Come back soon" overlay
         this.ctx.drawImage(EnterScreen.image_comeBackSoon.image, 0, 0);
+
+        // Clouds
+        this.clouds.draw(timeStamp);
     }
 }
 
@@ -25,7 +80,7 @@ class LandingMech {
     static animation = {
         image: (() => {
             const _img = new Image();
-            _img.src = "img/mech_landing.png";
+            _img.src = "img/mech_landing_sheet.png";
             return _img;
         })(),
         frameWidth: 500,
@@ -39,15 +94,13 @@ class LandingMech {
 
         this.landingSpotX = landingSpotX;
         this.landingSpotY = landingSpotY;
-
-        this.currentFrame = 0;
     }
 
-    draw() {
-        this.currentFrame = (this.currentFrame + 1) % LandingMech.animation.frameCount;
+    draw(timeStamp) {
+        let frame = getFrameFromTime(timeStamp, LandingMech.animation.frameCount, 200);
         this.ctx.drawImage(
             LandingMech.animation.image,
-            this.currentFrame * LandingMech.animation.frameWidth, 0,
+            frame * LandingMech.animation.frameWidth, 0,
             LandingMech.animation.frameWidth, LandingMech.animation.frameHeight,
             200, 200, //TODO
             LandingMech.animation.frameWidth / 4, LandingMech.animation.frameHeight / 4
@@ -76,11 +129,11 @@ class Scene {
         //this.mech = new LandingMech(canvas, ctx, "TODO", "TODO");
     }
 
-    draw() {
+    draw(timeStamp) {
         this.ctx.fillText("Hello, world!", 100, 100);
 
         if (this.state === Scene.STATES.ENTER_INACTIVE) {
-            this.enterScreen.draw();
+            this.enterScreen.draw(timeStamp);
         } else if (this.state === Scene.STATES.ENTER) {
             // TODO
         } else if (this.state === Scene.STATES.ENTERING) {
@@ -112,11 +165,15 @@ $(function () {
     // Frame update loop
     function updateFrame() {
 
+        let timeStamp_now = (new Date()).getTime();
+
         // Clear frame
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        scene.draw();
+        // Render the frame
+        scene.draw(timeStamp_now);
 
+        // Call for next frame
         requestAnimationFrame(updateFrame);
     }
     updateFrame();

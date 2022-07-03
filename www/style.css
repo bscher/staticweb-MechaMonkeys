@@ -10,8 +10,10 @@ body {
     width: 100%;
     height: 100vh;
     background-position: center;
-    background-image: url(img/background.png);
+    background-color: black;
+    background-image: url(img/page_background.png);
     background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
 #screen {
@@ -20,8 +22,8 @@ body {
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
-    width: 760px;
-    height: 760px;
+    width: 750px;
+    height: 750px;
 }
 
 #screen_canvas {
