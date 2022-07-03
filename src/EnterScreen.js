@@ -1,4 +1,6 @@
 import Clouds from './Clouds';
+import Grass1 from './Grass1';
+import TwitterBot from './TwitterBot';
 
 class EnterScreen {
 
@@ -27,12 +29,20 @@ class EnterScreen {
         this.ctx = ctx;
 
         this.clouds = new Clouds(canvas, ctx);
+        this.grass = new Grass1(canvas, ctx);
+        this.twitterBot = new TwitterBot(canvas, ctx);
     }
 
     draw(timeStamp) {
 
         // Background
         this.ctx.drawImage(EnterScreen.image_background.image, 0, 0);
+
+        // Grass
+        this.grass.draw(timeStamp);
+
+        // Twitter bot
+        this.twitterBot.draw(timeStamp);
 
         // "Come back soon" overlay
         this.ctx.drawImage(EnterScreen.image_comeBackSoon.image, 0, 0);
