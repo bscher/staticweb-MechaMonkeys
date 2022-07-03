@@ -17,7 +17,7 @@ class EnterScreen {
     static image_comeBackSoon = {
         image: (() => {
             const _img = new Image();
-            _img.src = "img/come_back.png";
+            _img.src = "img/come_back_soon.png";
             return _img;
         })(),
         frameWidth: 750,

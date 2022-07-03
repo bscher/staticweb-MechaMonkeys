@@ -19,7 +19,7 @@ class Grass1 {
     }
 
     draw(timeStamp) {
-        let frame = getFrameFromTime(timeStamp, Grass1.animation.frameCount, 400);
+        let frame = getFrameFromTime(timeStamp, Grass1.animation.frameCount, 250);
         this.ctx.drawImage(
             Grass1.animation.image,
             frame * Grass1.animation.frameWidth, 0,

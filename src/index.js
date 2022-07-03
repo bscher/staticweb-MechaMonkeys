@@ -1,4 +1,5 @@
 import EnterScreen from './EnterScreen';
+import UIButtonsAndMusic from './UIButtonsAndMusic';
 
 class Scene {
     static STATES = Object.freeze({
@@ -15,6 +16,7 @@ class Scene {
 
         this.state = Scene.STATES.ENTER_INACTIVE;
 
+        this.uiAndMusic = new UIButtonsAndMusic(canvas, ctx);
         this.enterScreen = new EnterScreen(canvas, ctx);
 
         // EXAMPLE
@@ -26,6 +28,7 @@ class Scene {
 
         if (this.state === Scene.STATES.ENTER_INACTIVE) {
             this.enterScreen.draw(timeStamp);
+            this.uiAndMusic.draw(timeStamp);
         } else if (this.state === Scene.STATES.ENTER) {
             // TODO
         } else if (this.state === Scene.STATES.ENTERING) {
@@ -45,8 +48,8 @@ $(function () {
 
     // Handle window resizing
     function onWindowResized() {
-        canvas.width = 750; //canvas.offsetWidth;
-        canvas.height = 750; //canvas.offsetHeight;
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
     }
     onWindowResized();
     window.addEventListener('resize', onWindowResized);
