@@ -17,43 +17,28 @@ class TwitterBot {
         this.ctx = ctx;
 
         this.initialTime = (new Date()).getTime();
-        this.readyToBePressed = false;
-
-        // Follow mouse actions
-        this.mouse = {
-            x: 0, y: 0,
-            clicked: false
+        this.state = {
+            readyToBePressed: false,
+            mouseHoveringOver: false
         };
-        const mouse = this.mouse;
-        window.addEventListener('mousedown', (event) => { mouse.clicked = true; });
-        window.addEventListener('mousemove', (event) => {
-            let canvasPosition = canvas.getBoundingClientRect();
-            mouse.x = event.x - canvasPosition.left;
-            mouse.y = event.y - canvasPosition.top;
-        });
-    }
 
-    isMouseOverTwitterButton() {
-        return (
-            this.mouse.x > 58 && this.mouse.x < 172 &&
-            this.mouse.y > 586 && this.mouse.y < 663
-        );
+        const state = this.state;
+        this.clickregion_twitter = document.getElementById('screen_clickregion_twitter');
+        this.clickregion_twitter.addEventListener('mouseover', (event) => { state.mouseHoveringOver = true; });
+        this.clickregion_twitter.addEventListener('mouseleave', (event) => { state.mouseHoveringOver = false; });
+        this.clickregion_twitter.addEventListener('click', (event) => {
+            if (state.readyToBePressed) {
+                window.open("https://twitter.com/mecha_monkeys", "_blank");
+            }
+        });
     }
 
     draw(timeStamp) {
 
-        if (this.readyToBePressed) {
-            if (this.mouse.clicked) {
-                if (
-                    this.mouse.x > 58 && this.mouse.x < 172 &&
-                    this.mouse.y > 586 && this.mouse.y < 663
-                ) {
-                    window.open("https://twitter.com/mecha_monkeys", "_blank");
-                }
-                this.mouse.clicked = false;
-            }
+        if (this.state.readyToBePressed) {
+            //
 
-            if (this.isMouseOverTwitterButton()) {
+            if (this.state.mouseHoveringOver) {
                 // Draw special highlight frame
                 this.ctx.drawImage(
                     TwitterBot.animation.image,
@@ -80,7 +65,7 @@ class TwitterBot {
             if (timeSinceInitial > 2000) {
                 if (timeSinceInitial >= 2000 + (TwitterBot.animation.frameCount * frameMillis)) {
                     frame = TwitterBot.animation.frameCount - 1;
-                    this.readyToBePressed = true;
+                    this.state.readyToBePressed = true;
                 } else {
                     frame = Math.floor(((timeSinceInitial - 2000) % (TwitterBot.animation.frameCount * frameMillis)) / frameMillis);
                 }

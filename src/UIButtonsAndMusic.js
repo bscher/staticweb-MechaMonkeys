@@ -14,7 +14,7 @@ class UIButtonsAndMusic {
     static music = {
         audio: (() => {
             let _music = new Audio("/audio/music.mp3");
-            _music.volume = 0.5;
+            _music.volume = 0.35;
             _music.muted = false;
             _music.loop = true;
             _music.autoplay = true;
@@ -26,50 +26,26 @@ class UIButtonsAndMusic {
         this.canvas = canvas;
         this.ctx = ctx;
 
-        this.initialMusicPlay = false;
-        this.muted = true;
-
-        // Follow mouse actions
-        this.mouse = {
-            x: 0, y: 0,
-            clicked: false
+        this.state = {
+            musicMuted: true,
+            mouseHoveringOver_muteButton: false
         };
-        const mouse = this.mouse;
-        window.addEventListener('mousedown', (event) => { mouse.clicked = true; });
-        window.addEventListener('mousemove', (event) => {
-            let canvasPosition = canvas.getBoundingClientRect();
-            mouse.x = event.x - canvasPosition.left;
-            mouse.y = event.y - canvasPosition.top;
+
+        const state = this.state;
+        this.clickregion_mute = document.getElementById('screen_clickregion_mute');
+        this.clickregion_mute.addEventListener('mouseover', (event) => { state.mouseHoveringOver_muteButton = true; });
+        this.clickregion_mute.addEventListener('mouseleave', (event) => { state.mouseHoveringOver_muteButton = false; });
+        this.clickregion_mute.addEventListener('click', (event) => {
+            state.musicMuted = !state.musicMuted;
+            UIButtonsAndMusic.music.audio.muted = state.musicMuted;
+            if (!state.muted) {
+                UIButtonsAndMusic.music.audio.play();
+            }
         });
     }
 
-    isMouseOverMuteButton() {
-        return (
-            this.mouse.x > 644 && this.mouse.x < 730 &&
-            this.mouse.y > 655 && this.mouse.y < 722
-        );
-    }
-
-    isMouseOverTwitterButton() {
-        return (
-            this.mouse.x > 644 && this.mouse.x < 730 &&
-            this.mouse.y > 655 && this.mouse.y < 722
-        );
-    }
-
     draw(timeStamp) {
-        if (this.mouse.clicked) {
-            if (this.isMouseOverMuteButton()) {
-                this.muted = !this.muted;
-                UIButtonsAndMusic.music.audio.muted = this.muted;
-                if (!this.muted) {
-                    UIButtonsAndMusic.music.audio.play();
-                }
-            }
-            this.mouse.clicked = false;
-        }
-
-        if (this.muted) {
+        if (this.state.musicMuted) {
             this.ctx.drawImage(
                 UIButtonsAndMusic.mute_button_sheet.image,
                 1 * UIButtonsAndMusic.mute_button_sheet.frameWidth, 0,
