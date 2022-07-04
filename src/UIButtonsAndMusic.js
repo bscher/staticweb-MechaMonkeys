@@ -27,39 +27,43 @@ class UIButtonsAndMusic {
         this.ctx = ctx;
 
         this.initialMusicPlay = false;
-        this.muted = false;
+        this.muted = true;
 
-        // Handle mouse click
+        // Follow mouse actions
         this.mouse = {
             x: 0, y: 0,
             clicked: false
         };
         const mouse = this.mouse;
-        function onMouseDown(event) {
+        window.addEventListener('mousedown', (event) => { mouse.clicked = true; });
+        window.addEventListener('mouseup', (event) => { mouse.clicked = false; });
+        window.addEventListener('mousemove', (event) => {
             let canvasPosition = canvas.getBoundingClientRect();
             mouse.x = event.x - canvasPosition.left;
             mouse.y = event.y - canvasPosition.top;
-            mouse.clicked = true;
-        }
-        function onMouseUp(_) {
-            mouse.clicked = false;
-        }
-        window.addEventListener('mousedown', onMouseDown);
-        window.addEventListener('mouseup', onMouseUp);
-        window.addEventListener('mousemove', () => { UIButtonsAndMusic.music.audio.play(); });
+        });
+    }
+
+    isMouseOverMuteButton() {
+        return (
+            this.mouse.x > 644 && this.mouse.x < 730 &&
+            this.mouse.y > 655 && this.mouse.y < 722
+        );
+    }
+
+    isMouseOverTwitterButton() {
+        return (
+            this.mouse.x > 644 && this.mouse.x < 730 &&
+            this.mouse.y > 655 && this.mouse.y < 722
+        );
     }
 
     draw(timeStamp) {
-        if (this.mouse.clicked) {
-            if (
-                this.mouse.x > 644 && this.mouse.x < 730 &&
-                this.mouse.y > 655 && this.mouse.y < 722
-            ) {
-                this.muted = !this.muted;
-                UIButtonsAndMusic.music.audio.muted = this.muted;
-                if (!this.muted) {
-                    UIButtonsAndMusic.music.audio.play();
-                }
+        if (this.mouse.clicked && this.isMouseOverMuteButton()) {
+            this.muted = !this.muted;
+            UIButtonsAndMusic.music.audio.muted = this.muted;
+            if (!this.muted) {
+                UIButtonsAndMusic.music.audio.play();
             }
             this.mouse.clicked = false;
         }
