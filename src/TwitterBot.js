@@ -26,7 +26,6 @@ class TwitterBot {
         };
         const mouse = this.mouse;
         window.addEventListener('mousedown', (event) => { mouse.clicked = true; });
-        window.addEventListener('mouseup', (event) => { mouse.clicked = false; });
         window.addEventListener('mousemove', (event) => {
             let canvasPosition = canvas.getBoundingClientRect();
             mouse.x = event.x - canvasPosition.left;
@@ -50,8 +49,8 @@ class TwitterBot {
                     this.mouse.y > 586 && this.mouse.y < 663
                 ) {
                     window.open("https://twitter.com/mecha_monkeys", "_blank");
-                    this.mouse.clicked = false;
                 }
+                this.mouse.clicked = false;
             }
 
             if (this.isMouseOverTwitterButton()) {

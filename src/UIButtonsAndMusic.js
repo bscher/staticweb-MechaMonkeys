@@ -36,7 +36,6 @@ class UIButtonsAndMusic {
         };
         const mouse = this.mouse;
         window.addEventListener('mousedown', (event) => { mouse.clicked = true; });
-        window.addEventListener('mouseup', (event) => { mouse.clicked = false; });
         window.addEventListener('mousemove', (event) => {
             let canvasPosition = canvas.getBoundingClientRect();
             mouse.x = event.x - canvasPosition.left;
@@ -59,11 +58,13 @@ class UIButtonsAndMusic {
     }
 
     draw(timeStamp) {
-        if (this.mouse.clicked && this.isMouseOverMuteButton()) {
-            this.muted = !this.muted;
-            UIButtonsAndMusic.music.audio.muted = this.muted;
-            if (!this.muted) {
-                UIButtonsAndMusic.music.audio.play();
+        if (this.mouse.clicked) {
+            if (this.isMouseOverMuteButton()) {
+                this.muted = !this.muted;
+                UIButtonsAndMusic.music.audio.muted = this.muted;
+                if (!this.muted) {
+                    UIButtonsAndMusic.music.audio.play();
+                }
             }
             this.mouse.clicked = false;
         }
