@@ -1,2 +1,4 @@
 *.g.*
 node_modules/
+logs/
+*.log.txt
