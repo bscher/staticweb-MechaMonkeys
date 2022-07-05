@@ -10,7 +10,8 @@
         "build-dev": "webpack --config webpack_dev.config.js",
         "www": "npm run build && ws -p 8000 -d ./www/",
         "www-dev": "npm run build-dev && ws -p 8000 -d ./www/",
-        "deploy": "npm run build && aws s3 sync ./www/ s3://mechamonkeys.io/ --delete --profile=mm_deploy"
+        "deploy": "npm run build && aws s3 sync ./www/ s3://mechamonkeys.io/ --delete --profile=mm_deploy",
+        "logs": "aws s3 sync s3://mechamonkeys.io-logs/ ./logs/ --delete --profile=mm_logs"
     },
     "author": "github.com/bscher",
     "license": "ISC",
