@@ -24,8 +24,10 @@ def get_info_from_log(all_lines):
         unique_ips.add(key_values['c-ip'])
 
     print(f"Unique IPs: {len(unique_ips)}")
-    for ip in unique_ips:
-        print(ip)
+    with open("logs_cdn_unique_ips.log.txt", "wt") as f:
+        for ip in unique_ips:
+            print(ip)
+            f.write(ip + "\n")
 
 
 if __name__ == "__main__":
