@@ -4,4 +4,4 @@ function getFrameFromTime(timeStamp, totalFrames, millisPerFrame) {
     return Math.floor((timeStamp % animationPeriod) / millisPerFrame);
 }
 
-export default getFrameFromTime;
+export { getFrameFromTime };

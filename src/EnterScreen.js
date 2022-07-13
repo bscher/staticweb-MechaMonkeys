@@ -1,5 +1,5 @@
-import Clouds from './Clouds';
-import Grass1 from './Grass1';
+import Clouds1 from './scene_enter/Clouds1';
+import Grass1 from './scene_enter/Grass1';
 import TwitterBot from './TwitterBot';
 
 class EnterScreen {
@@ -7,7 +7,7 @@ class EnterScreen {
     static image_background = {
         image: (() => {
             const _img = new Image();
-            _img.src = "img/welcome_background.png";
+            _img.src = "img/scene_enter/welcome_background.png";
             return _img;
         })(),
         frameWidth: 750,
@@ -17,7 +17,7 @@ class EnterScreen {
     static image_comeBackSoon = {
         image: (() => {
             const _img = new Image();
-            _img.src = "img/come_back_soon.png";
+            _img.src = "img/scene_enter/come_back_soon.png";
             return _img;
         })(),
         frameWidth: 750,
@@ -28,7 +28,7 @@ class EnterScreen {
         this.canvas = canvas;
         this.ctx = ctx;
 
-        this.clouds = new Clouds(canvas, ctx);
+        this.clouds = new Clouds1(canvas, ctx);
         this.grass = new Grass1(canvas, ctx);
         this.twitterBot = new TwitterBot(canvas, ctx);
     }

@@ -1,12 +1,12 @@
 
-import getFrameFromTime from './utils_frameTime';
+import { getFrameFromTime } from '../utils';
 
 class LandingMech {
 
     static animation = {
         image: (() => {
             const _img = new Image();
-            _img.src = "img/mech_landing_sheet.png";
+            _img.src = "img/scene_mint/mech_landing_sheet.png";
             return _img;
         })(),
         frameWidth: 500,

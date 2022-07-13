@@ -1,11 +1,11 @@
 
-import getFrameFromTime from './utils_frameTime';
+import { getFrameFromTime } from '../utils';
 
 class Grass1 {
     static animation = {
         image: (() => {
             const _img = new Image();
-            _img.src = "img/grass1_sheet.png";
+            _img.src = "img/scene_enter/grass1_sheet.png";
             return _img;
         })(),
         frameWidth: 750,
