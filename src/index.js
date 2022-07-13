@@ -1,4 +1,4 @@
-import EnterScreen from './EnterScreen';
+import SceneEnter from './SceneEnter';
 import UIButtonsAndMusic from './UIButtonsAndMusic';
 
 class Scene {
@@ -17,7 +17,7 @@ class Scene {
         this.state = Scene.STATES.ENTER_INACTIVE;
 
         this.uiAndMusic = new UIButtonsAndMusic(canvas, ctx);
-        this.enterScreen = new EnterScreen(canvas, ctx);
+        this.enterScreen = new SceneEnter(canvas, ctx);
 
         // EXAMPLE
         //this.mech = new LandingMech(canvas, ctx, "TODO", "TODO");

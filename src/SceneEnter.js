@@ -2,7 +2,7 @@ import Clouds1 from './scene_enter/Clouds1';
 import Grass1 from './scene_enter/Grass1';
 import TwitterBot from './TwitterBot';
 
-class EnterScreen {
+class SceneEnter {
 
     static image_background = {
         image: (() => {
@@ -36,7 +36,7 @@ class EnterScreen {
     draw(timeStamp) {
 
         // Background
-        this.ctx.drawImage(EnterScreen.image_background.image, 0, 0);
+        this.ctx.drawImage(SceneEnter.image_background.image, 0, 0);
 
         // Grass
         this.grass.draw(timeStamp);
@@ -45,11 +45,11 @@ class EnterScreen {
         this.twitterBot.draw(timeStamp);
 
         // "Come back soon" overlay
-        this.ctx.drawImage(EnterScreen.image_comeBackSoon.image, 0, 0);
+        this.ctx.drawImage(SceneEnter.image_comeBackSoon.image, 0, 0);
 
         // Clouds
         this.clouds.draw(timeStamp);
     }
 }
 
-export default EnterScreen;
+export default SceneEnter;
