@@ -55,6 +55,21 @@ body {
     text-decoration: none;
 }
 
+#screen_clickregion_enter {
+    position: absolute;
+    left: 250px;
+    top: 360px;
+    width: 270px;
+    height: 110px;
+}
+
+#screen_clickregion_enter_link {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
 #screen_canvas {
     display: block;
     width: 750px;
