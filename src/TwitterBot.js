@@ -1,3 +1,4 @@
+import { getFrameFromTime } from "./utils";
 
 class TwitterBot {
     static animation = {
@@ -9,6 +10,7 @@ class TwitterBot {
         frameWidth: 750,
         frameHeight: 750,
         frameCount: 15, // EXCLUSIVE
+        framePeriod: 200, //ms
         frame_hightlight: 15 // Special frame
     };
 
@@ -36,7 +38,6 @@ class TwitterBot {
     draw(timeStamp) {
 
         if (this.state.readyToBePressed) {
-            //
 
             if (this.state.mouseHoveringOver) {
                 // Draw special highlight frame
@@ -59,16 +60,15 @@ class TwitterBot {
             }
 
         } else {
-            let timeSinceInitial = timeStamp - this.initialTime;
+
+            const totalAnimationTime = TwitterBot.animation.frameCount * TwitterBot.animation.framePeriod;
+            const elapsedTime = timeStamp - this.initialTime;
             let frame = 0;
-            const frameMillis = 150;
-            if (timeSinceInitial > 2000) {
-                if (timeSinceInitial >= 2000 + (TwitterBot.animation.frameCount * frameMillis)) {
-                    frame = TwitterBot.animation.frameCount - 1;
-                    this.state.readyToBePressed = true;
-                } else {
-                    frame = Math.floor(((timeSinceInitial - 2000) % (TwitterBot.animation.frameCount * frameMillis)) / frameMillis);
-                }
+            if (elapsedTime < totalAnimationTime) {
+                frame = getFrameFromTime(elapsedTime, TwitterBot.animation.frameCount, TwitterBot.animation.framePeriod);
+            } else {
+                this.state.readyToBePressed = true;
+                frame = TwitterBot.animation.frameCount - 1;
             }
             this.ctx.drawImage(
                 TwitterBot.animation.image,

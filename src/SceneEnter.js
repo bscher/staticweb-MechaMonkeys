@@ -1,7 +1,6 @@
 import Clouds1 from './scene_enter/Clouds1';
 import Grass1 from './scene_enter/Grass1';
 import Meteor from './scene_enter/Meteor';
-import TwitterBot from './TwitterBot';
 import { getFrameFromTime } from './utils';
 
 class SceneEnter {
@@ -35,11 +34,11 @@ class SceneEnter {
         this.clouds = new Clouds1(canvas, ctx);
         this.grass = new Grass1(canvas, ctx);
         this.meteor = new Meteor(canvas, ctx);
-        this.twitterBot = new TwitterBot(canvas, ctx);
 
         this.state = {
             enterHasBeenPressed: false,
-            mouseHoveringOver: false
+            mouseHoveringOver: false,
+            isDone: false
         };
 
         const state = this.state;
@@ -53,6 +52,10 @@ class SceneEnter {
         });
     }
 
+    isDone() {
+        return this.state.isDone;
+    }
+
     draw(timeStamp) {
 
         // Background
@@ -60,9 +63,6 @@ class SceneEnter {
 
         // Grass
         this.grass.draw(timeStamp);
-
-        // Twitter bot
-        this.twitterBot.draw(timeStamp);
 
         // Clouds
         this.clouds.draw(timeStamp);
@@ -89,6 +89,9 @@ class SceneEnter {
 
         // Meteor
         this.meteor.draw(timeStamp);
+        if (this.meteor.isDonePlaying()) {
+            this.state.isDone = true;
+        }
     }
 }
 

@@ -1,45 +1,5 @@
-import SceneEnter from './SceneEnter';
-import UIButtonsAndMusic from './UIButtonsAndMusic';
+import Scene from "./Scene";
 
-class Scene {
-    static STATES = Object.freeze({
-        ENTER_INACTIVE: 0,
-        ENTER: 1,
-        ENTERING: 2,
-        MINT: 3,
-        POST_MINT: 4
-    });
-
-    constructor(canvas, ctx) {
-        this.canvas = canvas;
-        this.ctx = ctx;
-
-        this.state = Scene.STATES.ENTER_INACTIVE;
-
-        this.uiAndMusic = new UIButtonsAndMusic(canvas, ctx);
-        this.enterScreen = new SceneEnter(canvas, ctx);
-
-        // EXAMPLE
-        //this.mech = new LandingMech(canvas, ctx, "TODO", "TODO");
-    }
-
-    draw(timeStamp) {
-        this.ctx.fillText("Hello, world!", 100, 100);
-
-        if (this.state === Scene.STATES.ENTER_INACTIVE) {
-            this.enterScreen.draw(timeStamp);
-            this.uiAndMusic.draw(timeStamp);
-        } else if (this.state === Scene.STATES.ENTER) {
-            // TODO
-        } else if (this.state === Scene.STATES.ENTERING) {
-            // TODO
-        } else if (this.state === Scene.STATES.MINT) {
-            // TODO
-        } else if (this.state === Scene.STATES.POST_MINT) {
-            // TODO
-        }
-    }
-}
 
 $(function () {
     // Setup
