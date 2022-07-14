@@ -1,4 +1,11 @@
 import { getNumberAsFixedString } from "../utils";
+import {
+    connectToWallet,
+    CONNECT_SUCCESS,
+    CONNECT_DECLINED,
+    CONNECT_FAIL_UNKNOWN,
+    attemptMint
+} from "../EthLink";
 
 class Station {
 
@@ -46,7 +53,7 @@ class Station {
             this.clickregion_associate_mm.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_mm = false; });
             this.clickregion_associate_mm.addEventListener('click', (event) => {
                 console.log("Clicked associate MM!");
-                //...
+                this.connectToWallet();
             });
         })();
         this.clickregion_associate_gme = document.getElementById('screen_clickregion_associate_gme');
@@ -56,7 +63,7 @@ class Station {
             this.clickregion_associate_gme.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_gme = false; });
             this.clickregion_associate_gme.addEventListener('click', (event) => {
                 console.log("Clicked associate GME!");
-                //...
+                this.connectToWallet();
             });
         })();
         this.clickregion_mint = document.getElementById('screen_clickregion_mint');
@@ -66,9 +73,33 @@ class Station {
             this.clickregion_mint.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_mint = false; });
             this.clickregion_mint.addEventListener('click', (event) => {
                 console.log("Clicked mint!");
-                //...
+                if (this.state.isAssociated) {
+                    this.attemptToMint();
+                }
             });
         })();
+    }
+
+    connectToWallet() {
+        connectToWallet()
+            .then((connectReturnCode) => {
+                console.log("Connect returned: " + connectReturnCode);
+                if (connectReturnCode === CONNECT_SUCCESS) {
+                    this.state.isAssociated = true;
+                } else if (connectReturnCode === CONNECT_DECLINED) {
+                    alert("User declined to connect wallet. Please try again.");
+                } else if (connectReturnCode === CONNECT_FAIL_UNKNOWN) {
+                    alert("Experienced an unknown error. Please try again.");
+                    window.location.reload();
+                }
+            });
+    }
+
+    attemptToMint() {
+        attemptMint()
+            .then((result) => {
+                console.log(result);
+            });
     }
 
     toggleButtons(areButtonsEnabled) {
