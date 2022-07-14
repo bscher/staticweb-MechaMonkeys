@@ -73,24 +73,28 @@ class Station {
     }
 
     drawTimer(timeStamp) {
-
         const totalMillisRemaining = Math.max(0, this.state.enabledAtUTCTime - timeStamp);
+        if (totalMillisRemaining > 0) {
+            const millis_str = getNumberAsFixedString(totalMillisRemaining % 1000, 3);
+            const secs_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000) % 60, 2);
+            const mins_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000 / 60) % 60, 2);
+            const hours_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000 / 60 / 60) % 60, 2);
+            const days_str = getNumberAsFixedString(Math.min(99, Math.floor(totalMillisRemaining / 1000 / 60 / 60 / 24)), 3);
 
-        const millis_str = getNumberAsFixedString(totalMillisRemaining % 1000, 3);
-        const secs_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000) % 60, 2);
-        const mins_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000 / 60) % 60, 2);
-        const hours_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000 / 60 / 60) % 60, 2);
-        const days_str = getNumberAsFixedString(Math.min(99, Math.floor(totalMillisRemaining / 1000 / 60 / 60 / 24)), 2);
-
-        this.ctx.save();
-        this.ctx.fillStyle = 'rgba(255,0,0,1)';
-        this.ctx.font = "bold 26px monospace";
-        this.ctx.fillText(`${days_str}:${hours_str}:${mins_str}:${secs_str}.${millis_str}`, 270, 653);
-        //this.ctx.fillText(`00:17:00:00.000`, 270, 653);
-        // if ((new Date()).getTime() % 1500 > 750) {
-        //     this.ctx.fillText(`mint completed`, 270, 653);
-        // }
-        this.ctx.restore();
+            this.ctx.save();
+            this.ctx.fillStyle = 'rgba(255,0,0,1)';
+            this.ctx.font = "bold 26px monospace";
+            this.ctx.fillText(`${days_str}:${hours_str}:${mins_str}:${secs_str}.${millis_str}`, 265, 653);
+            this.ctx.restore();
+        } else {
+            if (timeStamp % 1500 > 750) {
+                this.ctx.save();
+                this.ctx.fillStyle = 'rgba(255,0,0,1)';
+                this.ctx.font = "bold 26px monospace";
+                this.ctx.fillText(`000:00:00:00.000`, 265, 653);
+                this.ctx.restore();
+            }
+        }
     }
 
     draw(timeStamp) {
