@@ -1,11 +1,13 @@
-import { getNumberAsFixedString } from "../utils";
+import { getNumberAsFixedString, getFrameFromTime } from "../utils";
 import {
-    connectToWallet,
-    CONNECT_SUCCESS,
-    CONNECT_DECLINED,
-    CONNECT_FAIL_UNKNOWN,
-    attemptMint
+    connectToEthWallet,
+    attemptEthMint
 } from "../EthLink";
+import {
+    connectToGMEWallet,
+    attemptGMEMint
+} from "../GMELink";
+
 
 class Station {
 
@@ -17,11 +19,14 @@ class Station {
         })(),
         frameWidth: 750,
         frameHeight: 750,
-        frame_rrr: 0,
-        frame_rgr: 1,
-        frame_grr: 2,
-        frame_ggg: 3,
-        frame_ggg_pressed: 4,
+        frameCount: 15,
+        framePeriod: 150, //ms
+        frame_rrr: 15,
+        frame_rgr: 16,
+        frame_grr: 17,
+        frame_ggg: 18,
+        frame_ggg_pressed: 19,
+        frame_justPlatform: 14
     };
 
     static image_cover = {
@@ -39,11 +44,15 @@ class Station {
         this.ctx = ctx;
 
         this.state = {
-            enabledAtUTCTime: 0, //1657843200000,
+            enabledAtUTCTime: 1657843200000,
             mouseHoveringOver_mm: false,
             mouseHoveringOver_gme: false,
             isAssociated: false,
+            isGME: false,
+            isEth: false,
             mouseHoveringOver_mint: false,
+            doneWithStation: false,
+            doneWithStationTimeStamp: 0
         };
 
         this.clickregion_associate_mm = document.getElementById('screen_clickregion_associate_mm');
@@ -53,7 +62,7 @@ class Station {
             this.clickregion_associate_mm.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_mm = false; });
             this.clickregion_associate_mm.addEventListener('click', (event) => {
                 console.log("Clicked associate MM!");
-                this.connectToWallet();
+                this.attemptToConnectToEthWallet();
             });
         })();
         this.clickregion_associate_gme = document.getElementById('screen_clickregion_associate_gme');
@@ -63,7 +72,7 @@ class Station {
             this.clickregion_associate_gme.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_gme = false; });
             this.clickregion_associate_gme.addEventListener('click', (event) => {
                 console.log("Clicked associate GME!");
-                this.connectToWallet();
+                this.attemptToConnectToGMEWallet();
             });
         })();
         this.clickregion_mint = document.getElementById('screen_clickregion_mint');
@@ -74,38 +83,79 @@ class Station {
             this.clickregion_mint.addEventListener('click', (event) => {
                 console.log("Clicked mint!");
                 if (this.state.isAssociated) {
-                    this.attemptToMint();
+                    this.attemptToMint()
+                        .then((success) => {
+                            console.log("Tried to mint. Returned non-error.");
+                            if (success) {
+                                this.startYoinkAnimation((new Date()).getTime());
+                            }
+                        })
+                        .catch((error) => {
+                            console.log("Failed to mint.");
+                            console.log(error);
+                        });
                 }
             });
         })();
+
+        this.toggleAllButtons(false);
     }
 
-    connectToWallet() {
-        connectToWallet()
-            .then((connectReturnCode) => {
-                console.log("Connect returned: " + connectReturnCode);
-                if (connectReturnCode === CONNECT_SUCCESS) {
+    attemptToConnectToEthWallet() {
+        connectToEthWallet()
+            .then((connectSuccess) => {
+                console.log("Connect returned: " + connectSuccess);
+                if (connectSuccess) {
                     this.state.isAssociated = true;
-                } else if (connectReturnCode === CONNECT_DECLINED) {
-                    alert("User declined to connect wallet. Please try again.");
-                } else if (connectReturnCode === CONNECT_FAIL_UNKNOWN) {
-                    alert("Experienced an unknown error. Please try again.");
-                    window.location.reload();
+                    this.state.isEth = true;
                 }
+            })
+            .catch((err) => {
+                console.log("Failed to connect to Eth wallet: " + err);
             });
     }
 
-    attemptToMint() {
-        attemptMint()
-            .then((result) => {
-                console.log(result);
+    attemptToConnectToGMEWallet() {
+        connectToGMEWallet()
+            .then((connectSuccess) => {
+                console.log("Connect returned: " + connectSuccess);
+                if (connectSuccess) {
+                    this.state.isAssociated = true;
+                    this.state.isGME = true;
+                }
+            })
+            .catch((err) => {
+                console.log("Failed to connect to GME wallet: " + err);
             });
     }
 
-    toggleButtons(areButtonsEnabled) {
+
+    async attemptToMint() {
+        if (this.state.isEth) {
+            return await attemptEthMint();
+        } else {
+            return await attemptGMEMint();
+        }
+    }
+
+    startYoinkAnimation(timeStamp) {
+        // this.state.doneWithStation = true;
+        // this.state.doneWithStationTimeStamp = timeStamp;
+        // this.toggleAllButtons(false);
+    }
+
+    toggleMintButton(isButtonEnabled) {
+        this.clickregion_mint.hidden = !isButtonEnabled;
+    }
+
+    toggleWalletLinkButtons(areButtonsEnabled) {
         this.clickregion_associate_mm.hidden = !areButtonsEnabled;
         this.clickregion_associate_gme.hidden = !areButtonsEnabled;
-        this.clickregion_mint.hidden = !areButtonsEnabled;
+    }
+
+    toggleAllButtons(areButtonsEnabled) {
+        this.toggleWalletLinkButtons(areButtonsEnabled);
+        this.toggleMintButton(areButtonsEnabled);
     }
 
     drawTimer(timeStamp, totalMillisRemainingUntilMint) {
@@ -122,11 +172,12 @@ class Station {
             this.ctx.fillText(`${days_str}:${hours_str}:${mins_str}:${secs_str}.${millis_str}`, 265, 653);
             this.ctx.restore();
         } else {
+            this.toggleAllButtons(true);
             if (timeStamp % 1500 > 750) {
                 this.ctx.save();
                 this.ctx.fillStyle = 'rgba(255,0,0,1)';
                 this.ctx.font = "bold 26px monospace";
-                this.ctx.fillText(`000:00:00:00.000`, 265, 653);
+                this.ctx.fillText(`DEPLOYMENT READY`, 265, 653);
                 this.ctx.restore();
             }
         }
@@ -138,7 +189,17 @@ class Station {
         let frame = Station.animation.frame_rrr;
         if (totalMillisRemainingUntilMint === 0) {
             if (this.state.isAssociated) {
-                frame = Station.animation.frame_ggg;
+                if (this.state.doneWithStation) {
+                    const elapsedTime = timeStamp - this.state.doneWithStationTimeStamp;
+                    const maxAnimationTime = Station.animation.frameCount * Station.animation.framePeriod;
+                    if (elapsedTime > maxAnimationTime) {
+                        frame = Station.animation.frame_justPlatform;
+                    } else {
+                        frame = getFrameFromTime(elapsedTime, Station.animation.frameCount, Station.animation.framePeriod);
+                    }
+                } else {
+                    frame = Station.animation.frame_ggg;
+                }
             } else {
                 if (this.state.mouseHoveringOver_mm) {
                     frame = Station.animation.frame_grr;

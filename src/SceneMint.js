@@ -25,7 +25,7 @@ class SceneMint {
     }
 
     toggleButtons(areButtonsEnabled) {
-        this.station.toggleButtons(areButtonsEnabled);
+        this.station.toggleAllButtons(areButtonsEnabled);
     }
 
     onToggleMute(isNowMuted) {
