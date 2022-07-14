@@ -17,6 +17,16 @@ class Station {
         frame_ggg_pressed: 4,
     };
 
+    static image_cover = {
+        image: (() => {
+            const _img = new Image();
+            _img.src = "img/scene_mint/station_cover.png";
+            return _img;
+        })(),
+        frameWidth: 750,
+        frameHeight: 750,
+    };
+
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
@@ -77,6 +87,10 @@ class Station {
         this.ctx.fillStyle = 'rgba(255,0,0,1)';
         this.ctx.font = "bold 26px monospace";
         this.ctx.fillText(`${days_str}:${hours_str}:${mins_str}:${secs_str}.${millis_str}`, 270, 653);
+        //this.ctx.fillText(`00:17:00:00.000`, 270, 653);
+        // if ((new Date()).getTime() % 1500 > 750) {
+        //     this.ctx.fillText(`mint completed`, 270, 653);
+        // }
         this.ctx.restore();
     }
 
@@ -92,6 +106,13 @@ class Station {
                 Station.animation.frameWidth, Station.animation.frameHeight,
                 0, 0,
                 Station.animation.frameWidth, Station.animation.frameHeight
+            );
+            this.ctx.drawImage(
+                Station.image_cover.image,
+                0, 0,
+                Station.image_cover.frameWidth, Station.image_cover.frameHeight,
+                0, 0,
+                Station.image_cover.frameWidth, Station.image_cover.frameHeight
             );
         }
 
