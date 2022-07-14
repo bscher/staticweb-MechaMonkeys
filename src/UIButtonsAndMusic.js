@@ -22,26 +22,32 @@ class UIButtonsAndMusic {
         })()
     };
 
-    constructor(canvas, ctx) {
+    constructor(canvas, ctx, onToggleMuteAction) {
         this.canvas = canvas;
         this.ctx = ctx;
 
+        this.onToggleMuteAction = onToggleMuteAction;
+
         this.state = {
             musicMuted: true,
-            mouseHoveringOver_muteButton: false
+            mouseHoveringOver_muteButton: false,
         };
 
-        const state = this.state;
         this.clickregion_mute = document.getElementById('screen_clickregion_mute');
-        this.clickregion_mute.addEventListener('mouseover', (event) => { state.mouseHoveringOver_muteButton = true; });
-        this.clickregion_mute.addEventListener('mouseleave', (event) => { state.mouseHoveringOver_muteButton = false; });
+        this.clickregion_mute.addEventListener('mouseover', (event) => { this.state.mouseHoveringOver_muteButton = true; });
+        this.clickregion_mute.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_muteButton = false; });
         this.clickregion_mute.addEventListener('click', (event) => {
-            state.musicMuted = !state.musicMuted;
-            UIButtonsAndMusic.music.audio.muted = state.musicMuted;
-            if (!state.muted) {
-                UIButtonsAndMusic.music.audio.play();
-            }
+            this.toggleMuted(!this.state.musicMuted);
         });
+    }
+
+    toggleMuted(isNowMuted) {
+        this.state.musicMuted = isNowMuted;
+        UIButtonsAndMusic.music.audio.muted = this.state.musicMuted;
+        if (!this.state.muted) {
+            UIButtonsAndMusic.music.audio.play();
+        }
+        this.onToggleMuteAction(isNowMuted);
     }
 
     draw(timeStamp) {

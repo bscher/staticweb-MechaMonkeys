@@ -24,6 +24,10 @@ class SceneMint {
         this.station = new Station(canvas, ctx);
     }
 
+    onToggleMute(isNowMuted) {
+        // TODO
+    }
+
     draw(timeStamp) {
 
         // Clouds

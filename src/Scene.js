@@ -18,13 +18,18 @@ class Scene {
 
         this.state = Scene.STATES.ENTER;
 
-        this.sceneEnter = new SceneEnter(canvas, ctx);
-        this.sceneMint = new SceneMint(canvas, ctx);
-
-        this.uiAndMusic = new UIButtonsAndMusic(canvas, ctx);
+        this.uiAndMusic = new UIButtonsAndMusic(canvas, ctx, (isNowMuted) => { this.onToggleMute(isNowMuted); });
         this.fullScreenColor = new FullScreenColor(canvas, ctx);
         this.fullScreenColor_rgb = [255, 150, 0];
         this.twitterBot = new TwitterBot(canvas, ctx);
+
+        this.sceneEnter = new SceneEnter(canvas, ctx, () => { this.uiAndMusic.toggleMuted(false); });
+        this.sceneMint = new SceneMint(canvas, ctx);
+    }
+
+    onToggleMute(isNowMuted) {
+        this.sceneEnter.onToggleMute(isNowMuted);
+        this.sceneMint.onToggleMute(isNowMuted);
     }
 
     draw(timeStamp) {

@@ -27,9 +27,11 @@ class SceneEnter {
         frame_red: 14 // Special frame
     };
 
-    constructor(canvas, ctx) {
+    constructor(canvas, ctx, onEnterPressedAction) {
         this.canvas = canvas;
         this.ctx = ctx;
+
+        this.onEnterPressedAction = onEnterPressedAction;
 
         this.clouds = new Clouds1(canvas, ctx);
         this.grass = new Grass1(canvas, ctx);
@@ -41,16 +43,19 @@ class SceneEnter {
             isDone: false
         };
 
-        const state = this.state;
-        const meteor = this.meteor;
         this.clickregion_enter = document.getElementById('screen_clickregion_enter');
-        this.clickregion_enter.addEventListener('mouseover', (event) => { state.mouseHoveringOver = true; });
-        this.clickregion_enter.addEventListener('mouseleave', (event) => { state.mouseHoveringOver = false; });
+        this.clickregion_enter.addEventListener('mouseover', (event) => { this.state.mouseHoveringOver = true; });
+        this.clickregion_enter.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver = false; });
         this.clickregion_enter.addEventListener('click', (event) => {
-            state.enterHasBeenPressed = true;
-            meteor.play();
+            this.state.enterHasBeenPressed = true;
+            this.meteor.play();
             console.log("Clicked enter!");
+            this.onEnterPressedAction();
         });
+    }
+
+    onToggleMute(isNowMuted) {
+        this.meteor.onToggleMute(isNowMuted);
     }
 
     isDone() {

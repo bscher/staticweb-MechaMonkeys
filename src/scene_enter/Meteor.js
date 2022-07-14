@@ -14,6 +14,17 @@ class Meteor {
         frameCount: 18, // EXCLUSIVE
     };
 
+    static sound = {
+        audio: (() => {
+            let _music = new Audio("/audio/meteor.mp3");
+            _music.volume = 0.35;
+            _music.muted = false;
+            _music.loop = false;
+            _music.autoplay = false;
+            return _music;
+        })()
+    };
+
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
@@ -24,7 +35,12 @@ class Meteor {
         if (!this.playAnimation) {
             this.playAnimation = true;
             this.playInitialTime = (new Date()).getTime();
+            Meteor.sound.audio.play();
         }
+    }
+
+    onToggleMute(isNowMuted) {
+        Meteor.sound.audio.muted = isNowMuted;
     }
 
     isDonePlaying() {

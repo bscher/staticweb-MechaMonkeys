@@ -24,12 +24,11 @@ class TwitterBot {
             mouseHoveringOver: false
         };
 
-        const state = this.state;
         this.clickregion_twitter = document.getElementById('screen_clickregion_twitter');
-        this.clickregion_twitter.addEventListener('mouseover', (event) => { state.mouseHoveringOver = true; });
-        this.clickregion_twitter.addEventListener('mouseleave', (event) => { state.mouseHoveringOver = false; });
+        this.clickregion_twitter.addEventListener('mouseover', (event) => { this.state.mouseHoveringOver = true; });
+        this.clickregion_twitter.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver = false; });
         this.clickregion_twitter.addEventListener('click', (event) => {
-            if (state.readyToBePressed) {
+            if (this.state.readyToBePressed) {
                 window.open("https://twitter.com/mecha_monkeys", "_blank");
             }
         });

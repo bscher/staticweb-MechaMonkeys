@@ -40,12 +40,11 @@ class Station {
             mouseHoveringOver_mint: false,
         };
 
-        const state = this.state;
         this.clickregion_associate_mm = document.getElementById('screen_clickregion_associate_mm');
         (() => {
             this.clickregion_associate_mm.hidden = true;
-            this.clickregion_associate_mm.addEventListener('mouseover', (event) => { state.mouseHoveringOver_mm = true; });
-            this.clickregion_associate_mm.addEventListener('mouseleave', (event) => { state.mouseHoveringOver_mm = false; });
+            this.clickregion_associate_mm.addEventListener('mouseover', (event) => { this.state.mouseHoveringOver_mm = true; });
+            this.clickregion_associate_mm.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_mm = false; });
             this.clickregion_associate_mm.addEventListener('click', (event) => {
                 console.log("Clicked associate MM!");
                 //...
@@ -54,8 +53,8 @@ class Station {
         this.clickregion_associate_gme = document.getElementById('screen_clickregion_associate_gme');
         (() => {
             this.clickregion_associate_gme.hidden = true;
-            this.clickregion_associate_gme.addEventListener('mouseover', (event) => { state.mouseHoveringOver_mm = true; });
-            this.clickregion_associate_gme.addEventListener('mouseleave', (event) => { state.mouseHoveringOver_mm = false; });
+            this.clickregion_associate_gme.addEventListener('mouseover', (event) => { this.state.mouseHoveringOver_mm = true; });
+            this.clickregion_associate_gme.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_mm = false; });
             this.clickregion_associate_gme.addEventListener('click', (event) => {
                 console.log("Clicked associate GME!");
                 //...
@@ -64,8 +63,8 @@ class Station {
         this.clickregion_mint = document.getElementById('screen_clickregion_mint');
         (() => {
             this.clickregion_mint.hidden = true;
-            this.clickregion_mint.addEventListener('mouseover', (event) => { state.mouseHoveringOver_mint = true; });
-            this.clickregion_mint.addEventListener('mouseleave', (event) => { state.mouseHoveringOver_mint = false; });
+            this.clickregion_mint.addEventListener('mouseover', (event) => { this.state.mouseHoveringOver_mint = true; });
+            this.clickregion_mint.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_mint = false; });
             this.clickregion_mint.addEventListener('click', (event) => {
                 console.log("Clicked mint!");
                 //...
