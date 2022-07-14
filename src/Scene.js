@@ -41,7 +41,8 @@ class Scene {
 
             if (this.sceneEnter.isDone()) {
                 this.state = Scene.STATES.ENTERING;
-                this.sceneEnter.removeClickRegions();
+                this.sceneEnter.toggleButtons(false);
+                this.sceneMint.toggleButtons(true);
                 this.fullScreenColor.start(
                     timeStamp,
                     this.fullScreenColor_rgb[0], this.fullScreenColor_rgb[1], this.fullScreenColor_rgb[2], true,

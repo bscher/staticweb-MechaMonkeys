@@ -32,8 +32,7 @@ class Station {
         this.ctx = ctx;
 
         this.state = {
-            enabled: false,
-            enabledAtUTCTime: 1657843200000,
+            enabledAtUTCTime: 0, //1657843200000,
             mouseHoveringOver_mm: false,
             mouseHoveringOver_gme: false,
             isAssociated: false,
@@ -53,8 +52,8 @@ class Station {
         this.clickregion_associate_gme = document.getElementById('screen_clickregion_associate_gme');
         (() => {
             this.clickregion_associate_gme.hidden = true;
-            this.clickregion_associate_gme.addEventListener('mouseover', (event) => { this.state.mouseHoveringOver_mm = true; });
-            this.clickregion_associate_gme.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_mm = false; });
+            this.clickregion_associate_gme.addEventListener('mouseover', (event) => { this.state.mouseHoveringOver_gme = true; });
+            this.clickregion_associate_gme.addEventListener('mouseleave', (event) => { this.state.mouseHoveringOver_gme = false; });
             this.clickregion_associate_gme.addEventListener('click', (event) => {
                 console.log("Clicked associate GME!");
                 //...
@@ -72,14 +71,19 @@ class Station {
         })();
     }
 
-    drawTimer(timeStamp) {
-        const totalMillisRemaining = Math.max(0, this.state.enabledAtUTCTime - timeStamp);
-        if (totalMillisRemaining > 0) {
-            const millis_str = getNumberAsFixedString(totalMillisRemaining % 1000, 3);
-            const secs_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000) % 60, 2);
-            const mins_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000 / 60) % 60, 2);
-            const hours_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000 / 60 / 60) % 60, 2);
-            const days_str = getNumberAsFixedString(Math.min(99, Math.floor(totalMillisRemaining / 1000 / 60 / 60 / 24)), 3);
+    toggleButtons(areButtonsEnabled) {
+        this.clickregion_associate_mm.hidden = !areButtonsEnabled;
+        this.clickregion_associate_gme.hidden = !areButtonsEnabled;
+        this.clickregion_mint.hidden = !areButtonsEnabled;
+    }
+
+    drawTimer(timeStamp, totalMillisRemainingUntilMint) {
+        if (totalMillisRemainingUntilMint > 0) {
+            const millis_str = getNumberAsFixedString(totalMillisRemainingUntilMint % 1000, 3);
+            const secs_str = getNumberAsFixedString(Math.floor(totalMillisRemainingUntilMint / 1000) % 60, 2);
+            const mins_str = getNumberAsFixedString(Math.floor(totalMillisRemainingUntilMint / 1000 / 60) % 60, 2);
+            const hours_str = getNumberAsFixedString(Math.floor(totalMillisRemainingUntilMint / 1000 / 60 / 60) % 60, 2);
+            const days_str = getNumberAsFixedString(Math.min(99, Math.floor(totalMillisRemainingUntilMint / 1000 / 60 / 60 / 24)), 3);
 
             this.ctx.save();
             this.ctx.fillStyle = 'rgba(255,0,0,1)';
@@ -98,18 +102,31 @@ class Station {
     }
 
     draw(timeStamp) {
-        // Console image
+        const totalMillisRemainingUntilMint = Math.max(0, this.state.enabledAtUTCTime - timeStamp);
+
         let frame = Station.animation.frame_rrr;
-        if (this.state.enabled) {
-            //...
-        } else {
-            this.ctx.drawImage(
-                Station.animation.image,
-                frame * Station.animation.frameWidth, 0,
-                Station.animation.frameWidth, Station.animation.frameHeight,
-                0, 0,
-                Station.animation.frameWidth, Station.animation.frameHeight
-            );
+        if (totalMillisRemainingUntilMint === 0) {
+            if (this.state.isAssociated) {
+                frame = Station.animation.frame_ggg;
+            } else {
+                if (this.state.mouseHoveringOver_mm) {
+                    frame = Station.animation.frame_grr;
+                } else if (this.state.mouseHoveringOver_gme) {
+                    frame = Station.animation.frame_rgr;
+                } else {
+                    frame = Station.animation.frame_rrr;
+                }
+            }
+        }
+        this.ctx.drawImage(
+            Station.animation.image,
+            frame * Station.animation.frameWidth, 0,
+            Station.animation.frameWidth, Station.animation.frameHeight,
+            0, 0,
+            Station.animation.frameWidth, Station.animation.frameHeight
+        );
+
+        if (totalMillisRemainingUntilMint > 0) {
             this.ctx.drawImage(
                 Station.image_cover.image,
                 0, 0,
@@ -119,7 +136,7 @@ class Station {
             );
         }
 
-        this.drawTimer(timeStamp);
+        this.drawTimer(timeStamp, totalMillisRemainingUntilMint);
     }
 }
 

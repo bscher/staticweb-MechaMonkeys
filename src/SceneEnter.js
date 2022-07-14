@@ -62,8 +62,8 @@ class SceneEnter {
         return this.state.isDone;
     }
 
-    removeClickRegions() {
-        this.clickregion_enter.hidden = true;
+    toggleButtons(areButtonsEnabled) {
+        this.clickregion_enter.hidden = !areButtonsEnabled;
     }
 
     draw(timeStamp) {

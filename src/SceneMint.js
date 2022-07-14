@@ -24,6 +24,10 @@ class SceneMint {
         this.station = new Station(canvas, ctx);
     }
 
+    toggleButtons(areButtonsEnabled) {
+        this.station.toggleButtons(areButtonsEnabled);
+    }
+
     onToggleMute(isNowMuted) {
         // TODO
     }

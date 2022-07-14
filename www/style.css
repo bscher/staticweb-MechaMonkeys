@@ -70,6 +70,52 @@ body {
     text-decoration: none;
 }
 
+#screen_clickregion_associate_mm {
+    position: absolute;
+    left: 200px;
+    top: 150px;
+    width: 120px;
+    height: 100px;
+}
+
+#screen_clickregion_associate_mm_link {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
+#screen_clickregion_associate_gme {
+    position: absolute;
+    left: 330px;
+    top: 150px;
+    width: 120px;
+    height: 100px;
+}
+
+#screen_clickregion_associate_gme_link {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
+#screen_clickregion_mint {
+    position: absolute;
+    left: 200px;
+    top: 310px;
+    width: 260px;
+    height: 290px;
+}
+
+#screen_clickregion_mint_link {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
+
 #screen_canvas {
     display: block;
     width: 750px;
