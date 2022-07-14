@@ -5,9 +5,7 @@ function getFrameFromTime(timeStamp, totalFrames, millisPerFrame) {
 }
 
 function getNumberAsFixedString(num, targetLength) {
-    let x = String(num).padStart(targetLength, '0');
-    //console.log(`${(typeof num)} ${num} - ${targetLength} - ${x}`);
-    return x;
+    return String(num).padStart(targetLength, '0');
 }
 
 export { getFrameFromTime, getNumberAsFixedString };

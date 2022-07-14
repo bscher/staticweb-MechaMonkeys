@@ -23,12 +23,11 @@ class Scene {
 
         this.uiAndMusic = new UIButtonsAndMusic(canvas, ctx);
         this.fullScreenColor = new FullScreenColor(canvas, ctx);
-        this.fullScreenColor_rgb = [252, 186, 3];
+        this.fullScreenColor_rgb = [255, 150, 0];
         this.twitterBot = new TwitterBot(canvas, ctx);
     }
 
     draw(timeStamp) {
-        this.ctx.fillText("Hello, world!", 100, 100);
 
         if (this.state === Scene.STATES.ENTER) {
             this.sceneEnter.draw(timeStamp);

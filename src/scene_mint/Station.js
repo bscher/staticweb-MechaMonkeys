@@ -23,7 +23,7 @@ class Station {
 
         this.state = {
             enabled: false,
-            enabledAtUTCTime: 1657846555000,
+            enabledAtUTCTime: 1657843200000,
             mouseHoveringOver_mm: false,
             mouseHoveringOver_gme: false,
             isAssociated: false,
@@ -66,7 +66,6 @@ class Station {
     drawTimer(timeStamp) {
 
         const totalMillisRemaining = Math.max(0, this.state.enabledAtUTCTime - timeStamp);
-        console.log(totalMillisRemaining);
 
         const millis_str = getNumberAsFixedString(totalMillisRemaining % 1000, 3);
         const secs_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000) % 60, 2);
