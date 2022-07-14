@@ -4,4 +4,10 @@ function getFrameFromTime(timeStamp, totalFrames, millisPerFrame) {
     return Math.floor((timeStamp % animationPeriod) / millisPerFrame);
 }
 
-export { getFrameFromTime };
+function getNumberAsFixedString(num, targetLength) {
+    let x = String(num).padStart(targetLength, '0');
+    //console.log(`${(typeof num)} ${num} - ${targetLength} - ${x}`);
+    return x;
+}
+
+export { getFrameFromTime, getNumberAsFixedString };
