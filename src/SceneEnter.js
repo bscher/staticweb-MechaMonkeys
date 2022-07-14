@@ -49,11 +49,16 @@ class SceneEnter {
         this.clickregion_enter.addEventListener('click', (event) => {
             state.enterHasBeenPressed = true;
             meteor.play();
+            console.log("Clicked enter!");
         });
     }
 
     isDone() {
         return this.state.isDone;
+    }
+
+    removeClickRegions() {
+        this.clickregion_enter.hidden = true;
     }
 
     draw(timeStamp) {

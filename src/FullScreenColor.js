@@ -39,9 +39,7 @@ class FullScreenColor {
         }
         let alpha = Math.min(1, this.interpolation_step.toFixed(2));
         this.ctx.save();
-        let style_str = `rgba(${this.target_rgb},${alpha})`;
-        console.log(`style_str=${style_str}`);
-        this.ctx.fillStyle = style_str;
+        this.ctx.fillStyle = `rgba(${this.target_rgb},${alpha})`;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.restore();
     }

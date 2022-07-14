@@ -2,6 +2,7 @@ import SceneEnter from './SceneEnter';
 import UIButtonsAndMusic from './UIButtonsAndMusic';
 import FullScreenColor from './FullScreenColor';
 import TwitterBot from './TwitterBot';
+import SceneMint from './SceneMint';
 
 class Scene {
     static STATES = Object.freeze({
@@ -18,6 +19,7 @@ class Scene {
         this.state = Scene.STATES.ENTER;
 
         this.sceneEnter = new SceneEnter(canvas, ctx);
+        this.sceneMint = new SceneMint(canvas, ctx);
 
         this.uiAndMusic = new UIButtonsAndMusic(canvas, ctx);
         this.fullScreenColor = new FullScreenColor(canvas, ctx);
@@ -35,6 +37,7 @@ class Scene {
 
             if (this.sceneEnter.isDone()) {
                 this.state = Scene.STATES.ENTERING;
+                this.sceneEnter.removeClickRegions();
                 this.fullScreenColor.start(
                     timeStamp,
                     this.fullScreenColor_rgb[0], this.fullScreenColor_rgb[1], this.fullScreenColor_rgb[2], true,
@@ -56,6 +59,7 @@ class Scene {
                 );
             }
         } else if (this.state === Scene.STATES.MINT) {
+            this.sceneMint.draw(timeStamp);
             this.twitterBot.draw(timeStamp);
             if (!this.fullScreenColor.isDone()) {
                 this.fullScreenColor.draw(timeStamp);

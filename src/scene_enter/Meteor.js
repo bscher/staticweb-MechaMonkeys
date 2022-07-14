@@ -21,8 +21,10 @@ class Meteor {
     }
 
     play() {
-        this.playAnimation = true;
-        this.playInitialTime = (new Date()).getTime();
+        if (!this.playAnimation) {
+            this.playAnimation = true;
+            this.playInitialTime = (new Date()).getTime();
+        }
     }
 
     isDonePlaying() {

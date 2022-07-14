@@ -23,7 +23,7 @@ class Grass2 {
             Grass2.animation.image,
             frame * Grass2.animation.frameWidth, 0,
             Grass2.animation.frameWidth, Grass2.animation.frameHeight,
-            0, -50,
+            0, -75,
             Grass2.animation.frameWidth, Grass2.animation.frameHeight
         );
     }
