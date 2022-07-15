@@ -2,7 +2,7 @@
 let gme = null;
 let associatedAccount = null;
 
-const CONTRACT_ADDRESS = "0x1894852504288219fa835Af44528571d543958a1";
+const CONTRACT_ADDRESS = ""; //0x1894852504288219fa835Af44528571d543958a1";
 
 const attemptGMEMint = async () => {
     if (!associatedAccount) {

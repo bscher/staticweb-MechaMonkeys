@@ -44,7 +44,7 @@ class Station {
         this.ctx = ctx;
 
         this.state = {
-            enabledAtUTCTime: 1657843200000,
+            enabledAtUTCTime: 1657933200000,
             mouseHoveringOver_mm: false,
             mouseHoveringOver_gme: false,
             isAssociated: false,
@@ -131,11 +131,11 @@ class Station {
 
 
     async attemptToMint() {
-        if (this.state.isEth) {
-            return await attemptEthMint();
-        } else {
-            return await attemptGMEMint();
-        }
+        // if (this.state.isEth) {
+        //     return await attemptEthMint();
+        // } else {
+        //     return await attemptGMEMint();
+        // }
     }
 
     startYoinkAnimation(timeStamp) {
@@ -177,7 +177,7 @@ class Station {
                 this.ctx.save();
                 this.ctx.fillStyle = 'rgba(255,0,0,1)';
                 this.ctx.font = "bold 26px monospace";
-                this.ctx.fillText(`DEPLOYMENT READY`, 265, 653);
+                this.ctx.fillText(`UPDATE IN PROGRESS`, 265, 653);
                 this.ctx.restore();
             }
         }
@@ -186,30 +186,30 @@ class Station {
     draw(timeStamp) {
         const totalMillisRemainingUntilMint = Math.max(0, this.state.enabledAtUTCTime - timeStamp);
 
-        let frame = Station.animation.frame_rrr;
-        if (totalMillisRemainingUntilMint === 0) {
-            if (this.state.isAssociated) {
-                if (this.state.doneWithStation) {
-                    const elapsedTime = timeStamp - this.state.doneWithStationTimeStamp;
-                    const maxAnimationTime = Station.animation.frameCount * Station.animation.framePeriod;
-                    if (elapsedTime > maxAnimationTime) {
-                        frame = Station.animation.frame_justPlatform;
-                    } else {
-                        frame = getFrameFromTime(elapsedTime, Station.animation.frameCount, Station.animation.framePeriod);
-                    }
-                } else {
-                    frame = Station.animation.frame_ggg;
-                }
-            } else {
-                if (this.state.mouseHoveringOver_mm) {
-                    frame = Station.animation.frame_grr;
-                } else if (this.state.mouseHoveringOver_gme) {
-                    frame = Station.animation.frame_rgr;
-                } else {
-                    frame = Station.animation.frame_rrr;
-                }
-            }
-        }
+        let frame = Station.animation.frame_justPlatform;
+        // if (totalMillisRemainingUntilMint === 0) {
+        //     if (this.state.isAssociated) {
+        //         if (this.state.doneWithStation) {
+        //             const elapsedTime = timeStamp - this.state.doneWithStationTimeStamp;
+        //             const maxAnimationTime = Station.animation.frameCount * Station.animation.framePeriod;
+        //             if (elapsedTime > maxAnimationTime) {
+        //                 frame = Station.animation.frame_justPlatform;
+        //             } else {
+        //                 frame = getFrameFromTime(elapsedTime, Station.animation.frameCount, Station.animation.framePeriod);
+        //             }
+        //         } else {
+        //             frame = Station.animation.frame_ggg;
+        //         }
+        //     } else {
+        //         if (this.state.mouseHoveringOver_mm) {
+        //             frame = Station.animation.frame_grr;
+        //         } else if (this.state.mouseHoveringOver_gme) {
+        //             frame = Station.animation.frame_rgr;
+        //         } else {
+        //             frame = Station.animation.frame_rrr;
+        //         }
+        //     }
+        // }
         this.ctx.drawImage(
             Station.animation.image,
             frame * Station.animation.frameWidth, 0,
@@ -218,15 +218,15 @@ class Station {
             Station.animation.frameWidth, Station.animation.frameHeight
         );
 
-        if (totalMillisRemainingUntilMint > 0) {
-            this.ctx.drawImage(
-                Station.image_cover.image,
-                0, 0,
-                Station.image_cover.frameWidth, Station.image_cover.frameHeight,
-                0, 0,
-                Station.image_cover.frameWidth, Station.image_cover.frameHeight
-            );
-        }
+        // if (totalMillisRemainingUntilMint > 0) {
+        //     this.ctx.drawImage(
+        //         Station.image_cover.image,
+        //         0, 0,
+        //         Station.image_cover.frameWidth, Station.image_cover.frameHeight,
+        //         0, 0,
+        //         Station.image_cover.frameWidth, Station.image_cover.frameHeight
+        //     );
+        // }
 
         this.drawTimer(timeStamp, totalMillisRemainingUntilMint);
     }
