@@ -17,8 +17,8 @@ const attemptEthMint = async () => {
                     from: associatedAccount,
                     to: CONTRACT_ADDRESS,
                     value: "0x0",
-                    gasPrice: "0xBA43B7400",
-                    gas: "0x249F0",
+                    gasPrice: "0x12A05F2000",
+                    gas: "0x3F7A0",
                     data: "0x1249c58b"
                 },
             ]
