@@ -170,7 +170,7 @@ class Station {
             const millis_str = getNumberAsFixedString(totalMillisRemaining % 1000, 3);
             const secs_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000) % 60, 2);
             const mins_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000 / 60) % 60, 2);
-            const hours_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000 / 60 / 60) % 60, 2);
+            const hours_str = getNumberAsFixedString(Math.floor(totalMillisRemaining / 1000 / 60 / 60) % 24, 2);
             const days_str = getNumberAsFixedString(Math.min(99, Math.floor(totalMillisRemaining / 1000 / 60 / 60 / 24)), 3);
 
             textToRender = `${days_str}:${hours_str}:${mins_str}:${secs_str}.${millis_str}`;
