@@ -3,7 +3,7 @@
 Visit the [Live Website](https://MechaMonkeys.io/)!
 
 # About
-A fun and simple static website deployed to AWS S3 for teasing the deployment of an NFT collection.
+The static website deployed to AWS S3 for hosting the deployment of an NFT collection, "Mecha Monkeys".
 - VanillaJS
 - npm for packaging
 - Webpack for deployment minifying
